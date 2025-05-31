@@ -1,7 +1,11 @@
 import time
-from typing import Optional
 import psutil
-from pywinauto import Application
+import platform
+
+if platform.system() == "Windows":
+    from pywinauto import Application
+else:
+    Application = None  # or handle it however you want
 
 from currency_converter_interface import CurrencyAmount, ICurrencyConverter
 
@@ -9,9 +13,6 @@ class CurrencyConverterCalculatorBase(ICurrencyConverter):
     """
     A base class for converting RSD to Euro or USD using the Windows Calculator app.
     """
-
-    app: Optional[Application]
-    calc: Optional[Application.window]
 
     def __init__(self) -> None:
         self.app = None

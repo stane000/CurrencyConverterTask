@@ -50,103 +50,116 @@ Structure:
 How to use!!!
 installation --------------------------------------------------------------------------------
 
-For this project it is expected that python is installed on your computer. If not first install it.
+    For this project it is expected that python and pip are installed on your computer. If not first install it.
 
-Windows!
-Run script install_my_project.bat
---------------------------
-Description:
-    This script sets up the development environment from scratch.
+    Windows!
+        Run script install_my_project.bat
+    .
+    Linux!
+        Give script setup_project.sh permission to run
+        chmod +x setup_project.sh
 
-Runs:
-    - env_create.bat       -> Creates a new virtual environment (.venv)
-    - env_packages.bat     -> Installs all required Python packages (e.g., via pip install -r requirements.txt)
-    - install_playwright.bat -> Installs Playwright browsers and dependencies
+        Run script
+        ./setup_project.sh
 
-Purpose:
-    Ensures the project is fully set up and ready for development or testing.
+    --------------------------
+    Description:
+        This script sets up the development environment from scratch.
+
+    Runs:
+        - env_create.bat       -> Creates a new virtual environment (.venv)
+        - env_packages.bat     -> Installs all required Python packages (e.g., via pip install -r requirements.txt)
+        - install_playwright.bat -> Installs Playwright browsers and dependencies
+
+    Purpose:
+        Ensures the project is fully set up and ready for development or testing
+
+Tests scripts for Windows ---------------------------------------------------------------------------------------
+
+    run_web_converter_tests.bat
+    -------------------------------
+    Description:
+        Runs tests that are marked for web-based currency converters (e.g., XE, GB/Wise).
+
+    Runs:
+        - Activates the virtual environment (venv\Scripts\activate.bat)
+        - Executes: `pytest -s -m web`
+
+    Purpose:
+        Runs tests that use Playwright 
+
+    Note:
+        Ensure that browsers are installed via Playwright and internet access is available.
+
+    ---
+
+    run_calc_converter_tests.bat 
+    --------------------------------------------------------
+    Description:
+        Runs tests that use local Windows Calculator for conversion.
+        calc: Requires windows language to be set to English
+        calc2: Requires internet connection
+
+    Runs:
+        - Activates the virtual environment
+        - Executes: `pytest -s -m calc`
+
+    Purpose:
+        Verifies currency conversions using built-in calculator logic or UI automation.
+
+    ---
+
+    run_webxe_calc_converter_tests
+    --------------------------------------------------------
+    Description:
+        Runs tests that use local Windows Calculator for conversion.
+        calc: Requires windows language to be set to English
+
+    Runs:
+        - Activates the virtual environment
+        - Executes: `pytest -s -m calc`
+
+    Purpose:
+        Verifies currency conversions using Playwright and built-in calculator logic or UI automation.
+
+    ---
+
+    run_webxe_calc2_converter_tests
+    --------------------------------------------------------
+    Description:
+        Runs tests that use local Windows Calculator for conversion.
+        calc2: Requires internet connection
+
+    Runs:
+        - Activates the virtual environment
+        - Executes: `pytest -s -m calc`
+
+    Purpose:
+        Verifies currency conversions using Playwright and built-in calculator logic or UI automation.
+
+    ---
+
+    run_all_converters.bat
+    ---------------------------------------------
+    Description:
+        Runs test with all converters
+
+    Runs:
+        - Activates the virtual environment
+        - Executes: `pytest -s`-m all_converters
+
+    Purpose:
+        For full regression or pre-release testing across all converters.
 
 ---
 
+Tests scripts for Linux ---------------------------------------------------------------------------------------
+    Give script run_web_converter_tests.sh permission to run
+        chmod +x run_web_converter_tests.sh
 
-Tests scripts ---------------------------------------------------------------------------------------
+    Run script
+    ./run_web_converter_tests.sh
 
-run_web_converter_tests.bat
--------------------------------
-Description:
-    Runs tests that are marked for web-based currency converters (e.g., XE, GB/Wise).
-
-Runs:
-    - Activates the virtual environment (venv\Scripts\activate.bat)
-    - Executes: `pytest -s -m web`
-
-Purpose:
-    Runs tests that use Playwright 
-
-Note:
-    Ensure that browsers are installed via Playwright and internet access is available.
-
----
-
-run_calc_converter_tests.bat 
---------------------------------------------------------
-Description:
-    Runs tests that use local Windows Calculator for conversion.
-    calc: Requires windows language to be set to English
-    calc2: Requires internet connection
-
-Runs:
-    - Activates the virtual environment
-    - Executes: `pytest -s -m calc`
-
-Purpose:
-    Verifies currency conversions using built-in calculator logic or UI automation.
-
----
-
-run_webxe_calc_converter_tests
---------------------------------------------------------
-Description:
-    Runs tests that use local Windows Calculator for conversion.
-    calc: Requires windows language to be set to English
-
-Runs:
-    - Activates the virtual environment
-    - Executes: `pytest -s -m calc`
-
-Purpose:
-    Verifies currency conversions using Playwright and built-in calculator logic or UI automation.
-
----
-
-run_webxe_calc2_converter_tests
---------------------------------------------------------
-Description:
-    Runs tests that use local Windows Calculator for conversion.
-    calc2: Requires internet connection
-
-Runs:
-    - Activates the virtual environment
-    - Executes: `pytest -s -m calc`
-
-Purpose:
-    Verifies currency conversions using Playwright and built-in calculator logic or UI automation.
-
----
-
-run_all_converters.bat
----------------------------------------------
-Description:
-    Runs test with all converters
-
-Runs:
-    - Activates the virtual environment
-    - Executes: `pytest -s`-m all_converters
-
-Purpose:
-    For full regression or pre-release testing across all converters.
-
----
 
 Marker Summary
 ==============
