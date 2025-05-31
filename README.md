@@ -42,6 +42,9 @@ Structure:
             4. test_compere_currency_amounts_xe_and_calc2:
                     marker: xe_calc2,
                     compares results for web_xe and calc2 converter
+            5. test_compere_currency_amounts_all_converters:
+                    marker: all_converters,
+                    compares results for web_xe, calc, calc2, web_gb
 
 
 How to use!!!
