@@ -26,6 +26,8 @@ class ConverterAppTest:
     def run_currency_converter_app(self, converter: str, amount: float, currency: str) -> str:
 
         file_name = f"test_output_{converter}_{amount}_rsd_to_{currency}"
+        # Create the directory if it doesn't exist
+        os.makedirs(RESULTS_DIR, exist_ok=True)
         output_file = os.path.join(RESULTS_DIR, file_name + ".txt")
 
         result = subprocess.run([sys.executable, APP_PATH, converter, currency, str(amount), output_file],
