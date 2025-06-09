@@ -22,12 +22,6 @@ class CurrencyConverterXE(ICurrencyConverter):
         self.browser = self.playwright.chromium.launch(headless=True)
         self.page = self.browser.new_page()
 
-        # Accept cookies if shown
-        try:
-            self.page.click("text=Accept", timeout=3000)
-        except:
-            pass
-    
     # Public methods
     def convert_rsd_to_euro(self, amount: float) -> CurrencyAmount:
         return self._convert_currency(amount, "EUR")
@@ -37,10 +31,17 @@ class CurrencyConverterXE(ICurrencyConverter):
     
     # Private methods
     def _convert_currency(self, amount: str, to_currency: str) -> CurrencyAmount:
-
+ 
         # open page
         self.page.goto("https://www.xe.com/")
+
+        # Accept cookies if shown
+        try:
+            self.page.click("text=Accept", timeout=3000)
+        except:
+            pass
         
+        sleep(1)
         # Fill amount to convert
         self.page.press("#amount", "Control+A")
         self.page.press("#amount", "Backspace")
@@ -50,23 +51,26 @@ class CurrencyConverterXE(ICurrencyConverter):
         input_selector = 'input[placeholder="Type to search..."]'
         self.page.click(input_selector)
         self.page.type(input_selector, "rsd")
-        sleep(0.5)
+        sleep(1)
         self.page.press(input_selector, "Enter")
     
         # Select "To" currency
         to_input = 'input[aria-describedby="midmarketToCurrency-current-selection"]'
         self.page.click(to_input)
         self.page.type(to_input, to_currency.lower())
-        sleep(0.5)
+        sleep(1)
         self.page.press(to_input, "Enter")
         
         # Convert
-        sleep(0.5)
+        sleep(1)
         self.page.click('button:has-text("Convert")')
         
         # Wait for results
-        sleep(0.5)
+        sleep(1)
         result_value = self.page.text_content('p.sc-708e65be-1.chuBHG')
+
+        self.close()
+        sleep(1)
         return CurrencyAmount(float(result_value.split(" ")[0].replace(",","")), to_currency)
     
     def close(self):
@@ -77,7 +81,7 @@ class CurrencyConverterXE(ICurrencyConverter):
 # Example usage
 if __name__ == "__main__":
     converter = CurrencyConverterXE()
-    eur_result = converter.convert_rsd_to_euro(10000)
+    eur_result = converter.convert_rsd_to_euro(1000)
     print(eur_result)
 
     usd_result = converter.convert_rsd_to_usd(1000)

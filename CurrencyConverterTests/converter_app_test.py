@@ -82,3 +82,44 @@ class ConverterAppTest:
                 f"String mismatch detected (expected: '{reference_value}'):\n"
                 f"{mismatch_report}\n\nAll values:\n{all_values_report}"
             )
+        
+    def assert_all_file_outputs_by_amount(self, currency_amount_and_converter: List[Tuple[str, str]]) -> None:
+        """
+        Asserts that all currency values are in the same currency and have equal float amounts
+        (rounded to 1 decimal place). Expects strings like '8.54 EUR'.
+
+        Parameters:
+            currency_amount_and_converter: List of (name, 'amount currency') tuples.
+
+        Raises:
+            AssertionError: If currencies differ or any rounded amount differs from the reference.
+        """
+
+        def parse_value(value: str) -> Tuple[float, str]:
+            try:
+                amount_str, currency = value.strip().split()
+                return round(float(amount_str), 1), currency.upper()
+            except (ValueError, IndexError):
+                raise ValueError(f"Invalid currency string format: '{value}'")
+
+        reference_name, reference_str = currency_amount_and_converter[0]
+        reference_amount, reference_currency = parse_value(reference_str)
+
+        mismatches = []
+        for name, value in currency_amount_and_converter:
+            amount, currency = parse_value(value)
+            if currency != reference_currency or amount != reference_amount:
+                mismatches.append((name, amount, currency, value))
+
+        if mismatches:
+            mismatch_report = "\n".join(
+                f"{name}: {amount} {currency} != {reference_amount} {reference_currency} (from '{original}')"
+                for name, amount, currency, original in mismatches
+            )
+            all_values_report = "\n".join(
+                f"{name}: '{value}'" for name, value in currency_amount_and_converter
+            )
+            raise AssertionError(
+                f"Currency amount mismatch detected (expected: {reference_amount} {reference_currency}):\n"
+                f"{mismatch_report}\n\nAll values:\n{all_values_report}"
+            )

@@ -54,23 +54,23 @@ installation -------------------------------------------------------------------
 
     Windows!
         Run script install_my_project.bat
+        This script sets up the development environment from scratch.
+
+        Runs:
+            - env_create.bat       -> Creates a new virtual environment (.venv)
+            - env_packages.bat     -> Installs all required Python packages (e.g., via pip install -r requirements.txt)
+            - install_playwright.bat -> Installs Playwright browsers and dependencies
+
     .
     Linux!
         Give script setup_project.sh permission to run
         chmod +x setup_project.sh
 
         Run script
+        This script sets up the development environment from scratch.
         ./setup_project.sh
 
     --------------------------
-    Description:
-        This script sets up the development environment from scratch.
-
-    Runs:
-        - env_create.bat       -> Creates a new virtual environment (.venv)
-        - env_packages.bat     -> Installs all required Python packages (e.g., via pip install -r requirements.txt)
-        - install_playwright.bat -> Installs Playwright browsers and dependencies
-
     Purpose:
         Ensures the project is fully set up and ready for development or testing
 
@@ -142,11 +142,26 @@ Tests scripts for Windows ------------------------------------------------------
     run_all_converters.bat
     ---------------------------------------------
     Description:
-        Runs test with all converters
+        Runs test with all converters, to compare currency conversion results
 
     Runs:
         - Activates the virtual environment
         - Executes: `pytest -s`-m all_converters
+
+    Purpose:
+        For full regression or pre-release testing across all converters.
+
+    ---
+
+    
+    run_all_converters_amount.bat
+    ---------------------------------------------
+    Description:
+        Runs test with all converters, to compare currency conversion results (rounded to 1 decimal place)
+
+    Runs:
+        - Activates the virtual environment
+        - Executes: `pytest -s`-m all_converters_amount
 
     Purpose:
         For full regression or pre-release testing across all converters.

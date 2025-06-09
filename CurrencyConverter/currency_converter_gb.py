@@ -54,6 +54,7 @@ class CurrencyConverterGB(ICurrencyConverter):
             sleep(0.2)
             await page.keyboard.press('Enter')
 
+            sleep(0.2)
             # Select target currency (EUR or USD)
             await page.click('#target-inputSelectedCurrency')
             await page.wait_for_selector('#target-inputSelectedCurrencySearch')

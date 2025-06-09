@@ -28,7 +28,7 @@ def test_compere_currency_amounts_web_gb_and_web_xe(converters: List[str], amoun
     - currency: Target currency for conversion (euro or usd).
     """
     print(f"Testing converters: {converters} for amount: {amount} and currency: {currency}")
-    compare_convertors_currency_conversion(converters, amount, currency)
+    compare_convertors_currency_conversion(converters, amount, currency, True)
 
 # -------------------------------------------------------------------------------------------
 
@@ -120,7 +120,23 @@ def test_compere_currency_amounts_all_converters(converters: List[str], amount: 
 
 # -------------------------------------------------------------------------------------------
 
-def compare_convertors_currency_conversion(converters: str, amount: str, currency: str) -> None:
+# Parameters for testing
+all_converters = [["web_xe", "calc", "calc2", "web_gb"]]
+
+@pytest.mark.all_converters_amount
+@pytest.mark.parametrize("converters", all_converters)
+@pytest.mark.parametrize("amount", amounts)
+@pytest.mark.parametrize("currency", currencies)
+def test_compere_currency_amounts_all_converters_amount(converters: List[str], amount: str, currency: str) -> None:
+    """
+    Test to compare currency conversion results (rounded to 1 decimal place) from different converters.
+    """
+    print(f"Testing converters: {converters} for amount: {amount} and currency: {currency}")
+    compare_convertors_currency_conversion(converters, amount, currency, True)
+
+# -------------------------------------------------------------------------------------------
+
+def compare_convertors_currency_conversion(converters: str, amount: str, currency: str, by_amount: bool = False) -> None:
 
     currency_amount_and_converter = []
     for converter in converters:
@@ -133,7 +149,10 @@ def compare_convertors_currency_conversion(converters: str, amount: str, currenc
         currency_amount_and_converter.append((converter, output_file))
     
     if len(converters) > 1:
-        converter_app_test.assert_all_file_outputs(currency_amount_and_converter)
+        if by_amount:
+            converter_app_test.assert_all_file_outputs_by_amount(currency_amount_and_converter)
+        else:
+             converter_app_test.assert_all_file_outputs(currency_amount_and_converter)
 
 if __name__ == "__main__":
-   pytest.main(["-s", "-v", "-m web", __file__])
+   pytest.main(["-s", "-v", "-m all_converters_amount", __file__])
