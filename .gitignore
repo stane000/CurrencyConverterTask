@@ -3,3 +3,4 @@ venv/
 results/
 .pytest_cache
 CurrencyConverter/__pycache__
+.venv
